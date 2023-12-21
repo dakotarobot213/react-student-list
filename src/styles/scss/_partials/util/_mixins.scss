@@ -1,0 +1,76 @@
+// Quick and simple way to define a box
+@mixin box($width, $height: $width) {
+	width: $width;
+	height: $height;
+}
+// This is a shortcut to center any block element
+@mixin center-auto {
+	margin: {
+		left: auto;
+		right: auto;
+	}
+}
+@mixin cover-background($url) {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	@if ($url) {
+		background-image: $url;
+	}
+}
+@mixin formatNav($vertical: true, $button: false) {
+	@include center-auto;
+	& ul {
+		@include setFlex(if($vertical, row, column));
+
+		& li {
+			background-color: $primary-color;
+			@if $vertical {
+				padding: {
+					left: 1rem;
+					right: 1rem;
+					top: 0.5rem;
+					bottom: 0.5rem;
+				}
+				&:hover {
+					background-color: $primary-color-highlight;
+				}
+			}
+			& a {
+				text-decoration: none;
+			}
+		}
+	}
+
+	& button {
+		@include box(100%, 0.5rem);
+		display: if($button, block, none);
+	}
+}
+@mixin formatCarousel {
+	@include setFlex(row);
+	li {
+		@include box(100%);
+		& > * {
+			@include box(100%);
+			object-fit: scale-down;
+		}
+	}
+	& button {
+		width: 20%;
+		border: 0;
+		background-color: rgba($primary-color, 0.1);
+		&:hover {
+			background-color: rgba($primary-color, 0.45);
+		}
+	}
+	& ul {
+		@include center-auto;
+		height: 100%;
+		list-style: none;
+	}
+}
+@mixin setFlex($direction: row) {
+	display: flex;
+	flex-direction: $direction;
+}
